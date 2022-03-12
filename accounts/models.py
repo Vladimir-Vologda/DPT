@@ -4,6 +4,8 @@ from django.template.defaultfilters import slugify
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
 
+from accounts.managers import CustomUserManager
+
 
 def photo_dir(instance, filename):
     #   Функция, при которой сохранение файлов будет
@@ -26,7 +28,7 @@ class CustomUserModel(AbstractBaseUser, PermissionsMixin):
     slug = models.SlugField(_('URL-address'), unique=True, db_index=True)
 
     #   Пользовательский менеджер
-    objects = ''
+    objects = CustomUserManager()
 
     #   Обязательное поле, по которому пользователь будет входить в систему
     USERNAME_FIELD = 'phone'
@@ -50,7 +52,7 @@ class CustomUserModel(AbstractBaseUser, PermissionsMixin):
     def save(self, *args, **kwargs):
         if not self.pk:
             self.slug = slugify(self.name)
-        super(CustomUserModel, self).save(*args, **kwargs)
+        super(CustomUserModel, self).save(**kwargs)
 
     def full_name(self):
         return f'{self.first_name} {self.last_name}'
