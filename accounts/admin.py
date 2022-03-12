@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import Group
+from django.utils.translation import gettext_lazy as _
 
 from accounts.forms import CustomUserChangeFormInAdmin, CustomUserCreationForm
 from accounts.models import CustomUserModel
@@ -22,9 +23,9 @@ class CustomUserAdmin(UserAdmin):
     )
     fieldsets = (
         (None, {'fields': ('first_name', 'last_name', 'photo')}),
-        ('Personal info', {'fields': ('phone', 'name', 'slug')}),
-        ('Permission', {'fields': ('is_active', 'is_staff', 'is_superuser')}),
-        ('Verification', {'fields': ('otp', 'is_verified')}),
+        (_('Personal info'), {'fields': ('phone', 'name', 'slug')}),
+        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser')}),
+        (_('Verification'), {'fields': ('otp', 'is_verified')}),
     )
     add_fieldsets = (
         (None, {
